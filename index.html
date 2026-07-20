@@ -3,219 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yoruk Network - Market</title>
+    <title>Yoruk Network - VIP & Market</title>
+    <!-- Modern fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --accent-color: #ff9f43;
-            --text-color: #ffffff;
-            --text-muted: #a0a0a0;
+            --bg-dark: #0a0a0c;
+            --card-bg: rgba(20, 20, 25, 0.85);
+            --mc-gold: #FFAA00;
+            --mc-blue: #55FFFF;
+            --mc-gray: #AAAAAA;
+            --mc-enchant: #5555FF;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(10, 10, 12, 0.8), rgba(10, 10, 12, 0.95)), url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            min-height: 100vh;
         }
 
+        /* Profesyonel Header */
         header {
-            width: 100%;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?q=80&w=1000') center/cover;
-            padding: 60px 0;
+            padding: 80px 20px;
             text-align: center;
-            border-bottom: 3px solid var(--accent-color);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mc-logo {
+            width: 60px;
+            height: 60px;
+            filter: drop-shadow(0 0 10px var(--mc-gold));
         }
 
         header h1 {
             margin: 0;
-            font-size: 3rem;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, var(--mc-gold), #ffce54);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(255, 170, 0, 0.2);
         }
 
         header p {
             margin: 10px 0 0;
             font-size: 1.2rem;
-            color: var(--text-muted);
+            color: #ccc;
+            font-weight: 400;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px; /* 2 ürün olacağı için daha derli toplu */
             width: 90%;
-            margin: 40px auto;
+            margin: 50px auto;
+            flex-grow: 1;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .category-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
         }
 
+        /* Kart Tasarımı */
         .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--mc-blue), var(--mc-gold));
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(255, 159, 67, 0.2);
+            transform: translateY(-10px);
+            border-color: rgba(255, 170, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 170, 0, 0.15);
         }
 
-        .card-img {
-            height: 180px;
-            background-color: #2a2a2a;
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-img-wrapper {
+            height: 220px;
+            background: radial-gradient(circle at center, rgba(40,40,50,1) 0%, rgba(20,20,25,1) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: var(--accent-color);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Eşya görselleri için parlama efekti */
+        .card-img-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(85, 255, 255, 0.1);
+            filter: blur(40px);
+            border-radius: 50%;
+        }
+
+        .card-img {
+            height: 120px;
+            object-fit: contain;
+            z-index: 1;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            transition: transform 0.3s ease;
+            image-rendering: pixelated; /* Minecraft eşyalarının net görünmesi için */
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .card-body {
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .card-title {
-            margin: 0 0 10px;
-            font-size: 1.4rem;
+            margin: 0 0 15px;
+            font-size: 1.5rem;
+            color: var(--mc-gold);
+            font-weight: 800;
         }
 
-        .card-description {
-            color: var(--text-muted);
+        /* Minecraft Tooltip Stili Büyüler */
+        .enchant-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .enchant-list li {
+            color: var(--mc-gray);
             font-size: 0.95rem;
-            line-height: 1.4;
-            margin-bottom: 20px;
-            flex-grow: 1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .enchant-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .enchant-list li::before {
+            content: '✨';
+            margin-right: 8px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .enchant-name {
+            color: var(--mc-gray);
+        }
+        
+        .enchant-level {
+            color: var(--mc-gray);
+            margin-left: 5px;
         }
 
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 400;
         }
 
         .btn {
-            background-color: var(--accent-color);
-            color: #000;
+            background: linear-gradient(135deg, var(--mc-gold), #e08528);
+            color: #111;
             border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 4px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.2s;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3);
         }
 
         .btn:hover {
-            background-color: #e08528;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 170, 0, 0.5);
+            color: #000;
         }
 
         footer {
-            margin-top: auto;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            padding: 30px;
             text-align: center;
-            width: 100%;
-            background-color: #0b0b0b;
+            background: rgba(0,0,0,0.8);
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
         }
+
     </style>
 </head>
 <body>
 
     <header>
-        <h1>YORUK NETWORK</h1>
-        <p>Sunucu Marketi & Ürün Kataloğu</p>
+        <div class="logo-container">
+            <!-- Minecraft Çimen Bloğu Logosu Temsili -->
+            <img src="https://minecraft.wiki/images/Grass_Block_Revision_6.png" alt="Minecraft Logo" class="mc-logo">
+            <h1>YORUK NETWORK</h1>
+        </div>
+        <p>Resmi OP Faction & Survival Marketi</p>
     </header>
 
     <div class="container">
         
-        <!-- VİP KATEGORİSİ -->
-        <div class="category-title">VIP Üyelikler</div>
-        <div class="grid">
-            
-            <!-- VIP Ürün 1 -->
-            <div class="card">
-                <div class="card-img">👑</div>
-                <div class="card-body">
-                    <h3 class="card-title">Yoruk VIP</h3>
-                    <p class="card-description">Sunucumuzun temel VIP paketidir. Özel yazı rengi, VIP kiti ve doluyken oyuna girme hakkı kazanır.</p>
-                    <div class="card-footer">
-                        <span class="price">50 TL / Ay</span>
-                        <a href="https://discord.gg/davet-kodu" target="_blank" class="btn">Satın Al</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIP Ürün 2 -->
-            <div class="card">
-                <div class="card-img">💎</div>
-                <div class="card-body">
-                    <h3 class="card-title">Asil VIP</h3>
-                    <p class="card-description">En üst düzey ayrıcalıklar! Özel uçuş yetkisi (sadece lobi/orman), devasa kit ve Discord'da özel rol.</p>
-                    <div class="card-footer">
-                        <span class="price">100 TL / Ay</span>
-                        <a href="https://discord.gg/davet-kodu" target="_blank" class="btn">Satın Al</a>
-                    </div>
-                </div>
-            </div>
-
+        <div class="category-header">
+            <div class="category-title">Özel Eşyalar & Kitler</div>
         </div>
 
-        <!-- KASA VE EDİT KATEGORİSİ -->
-        <div class="category-title">Kasa Anahtarları & Editler</div>
         <div class="grid">
             
-            <!-- Kasa Ürün 1 -->
+            <!-- Ürün 1: OP Netherite Zırh Kiti -->
             <div class="card">
-                <div class="card-img">🔑</div>
+                <div class="card-img-wrapper">
+                    <!-- Netherite Göğüslük Görseli -->
+                    <img src="https://minecraft.wiki/images/Netherite_Chestplate_%28item%29_JE2_BE1.png" alt="OP Netherite Zırh" class="card-img">
+                </div>
                 <div class="card-body">
-                    <h3 class="card-title">5x Asil Kasası Anahtarı</h3>
-                    <p class="card-description">Asil kasasını açarak p5 edit eşyalar ve özel büyülü kitaplar düşürme şansı yakalayın.</p>
+                    <h3 class="card-title">OP Netherite Zırh Kiti</h3>
+                    
+                    <ul class="enchant-list">
+                        <li><span class="enchant-name">Koruma</span> <span class="enchant-level">IV</span></li>
+                        <li><span class="enchant-name">Kırılmazlık</span> <span class="enchant-level">III</span></li>
+                        <li><span class="enchant-name">Tamir</span></li>
+                        <li style="color: #55FF55; margin-top: 8px; font-size: 0.85rem;">*Tüm set parçaları (Kask, Göğüslük, Pantolon, Bot) dahildir.</li>
+                    </ul>
+
                     <div class="card-footer">
-                        <span class="price">25 TL</span>
+                        <div class="price">80 <span>TL</span></div>
                         <a href="https://discord.gg/davet-kodu" target="_blank" class="btn">Satın Al</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Kasa Ürün 2 -->
+            <!-- Ürün 2: OP Keskin Kılıç -->
             <div class="card">
-                <div class="card-img">⚔️</div>
+                <div class="card-img-wrapper">
+                    <!-- Netherite Kılıç Görseli -->
+                    <img src="https://minecraft.wiki/images/Netherite_Sword_JE2_BE1.png" alt="OP Netherite Kılıç" class="card-img">
+                </div>
                 <div class="card-body">
-                    <h3 class="card-title">Edit Yoruk Kılıcı</h3>
-                    <p class="card-description">Keskinlik 6 ve Ganimet 4 özelliklerine sahip, oyun içi takas edilemeyen özel tasarım kılıç.</p>
+                    <h3 class="card-title">OP Keskin Kılıç</h3>
+                    
+                    <ul class="enchant-list">
+                        <li><span class="enchant-name">Keskinlik</span> <span class="enchant-level">V</span></li>
+                        <li><span class="enchant-name">Kırılmazlık</span> <span class="enchant-level">III</span></li>
+                        <li><span class="enchant-name">Tamir</span></li>
+                        <li style="color: #ff5555; margin-top: 8px; font-size: 0.85rem;">*Sunucu içi takas edilemez özel eşyadır.</li>
+                    </ul>
+
                     <div class="card-footer">
-                        <span class="price">40 TL</span>
+                        <div class="price">50 <span>TL</span></div>
                         <a href="https://discord.gg/davet-kodu" target="_blank" class="btn">Satın Al</a>
                     </div>
                 </div>
@@ -226,7 +348,8 @@
     </div>
 
     <footer>
-        &copy; 2026 Yoruk Network. Tüm hakları saklıdır. Bu sitenin Mojang Studios ile bir bağı yoktur.
+        &copy; 2026 Yoruk Network. Tüm hakları saklıdır.<br>
+        Bu web sitesi Mojang AB ile bağlantılı değildir veya onlar tarafından desteklenmemektedir.
     </footer>
 
 </body>
